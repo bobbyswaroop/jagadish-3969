@@ -1,4 +1,4 @@
-#include<stdio.h
+#include<stdio.h>
 #include<conio.h>
 #include<string.h>
 int z,i,j,c;
@@ -20,8 +20,7 @@ if(a[j]=='a')
 stk[i]=a[j];
 stk[i+1]='\0';
 a[j]=' ';
-printf("\n
-%s\t%s\tshift a",stk,a);
+printf("\n%s\t%s\tshift a",stk,a);
 reduce();}
 else
 {
