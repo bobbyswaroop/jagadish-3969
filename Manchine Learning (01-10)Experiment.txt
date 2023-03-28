@@ -400,46 +400,87 @@ print ("MSE", Mse)
 Output:
  
 Result:The program is executed and the output is verified.
-EX.NO:10- IMPLEMENT CLASSIFICATION ALGORITHMS
+EX.NO:10-IMPLEMENTING CLASSIFICATION ALGORITHM
 AIM:Write program to implement classification Algorithm by using python.
 Algorithm:
-1.Import the libraries
-2.Fetch data.
-3.Determine the target variable.
-4.creation of predictors variables.
-5.test and train dataset split.
-6.create the machine learning classification model using the train dataset.
-7.The classification model accuracy score in python.
-8.Prediction.
-9.Plotting classification data in matplotlib.
+1.Import the libraries.
+2.fetch data
+3.Determine the target variables
+4.creation of predictors variables
+5.test and train dataset split
+6.create the machine learning classification model using the train dataset
+7.prediction
+8.plotting classification data in matplotlib.
 Program:
 import pandas as pd
-import numpy as np
-from math import *
-
-df=pd.DataFrame()
-df['refund'] = ['yes','no','no','yes','no','no','yes','no','no','no']
-df['marital_status'] = ['single','married','married','single','single','divorced','married','single','single','married']
-df['taxable_income'] = [125000,100000,150000,250000,300000,350000,500000,180000,420000,275000]
-df['evade'] = ['no','no','no','no','yes','no','no','yes','no','yes']
-df
-
-for i in range(len(df)):
- df.loc[i,'taxable_income'] = str(ceil(df.loc[i,'taxable_income']/100000))
-df
-
-data = pd.get_dummies(df[df.columns])
-data
-
-for i in range(1,4):
-if ('taxable_income'+str(i) not in data.columns):
-data['taxable_income'+str(i)] = [0 for i in range(10)]
-data
-
-x=['no','married',180000]
-x[2] = str(ceil(x[2]/100000))
-x
+data=pd.read_csv("Iris.csv")
+X =data.iloc[:,[1,2,3,4]].values
+y =data.iloc[:,5].values
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
+from sklearn.naive_bayes import GaussianNB
+gnb = GaussianNB()
+gnb.fit(X_train, y_train)
+y_pred=gnb.predict(X_test)
+from sklearn import metrics
+print("Classification Accuracy:", metrics.accuracy_score(y_test, y_pred)*100)
+cm=metrics.confusion_matrix(y_test,y_pred)
+print(cm)
+import seaborn as sn
+from matplotlib import pyplot as plt
+plt.figure(figsize=(5,4))
+sn.heatmap(cm,annot=True)
+plt.xlabel('Predicted value')
+plt.ylabel('Actual value')
+plt.show()
 Output:
-[‘no’, ‘married’, ‘2’]
+[[11 0 0]
+ [0 12 1]
+ [0 0 6]]
 Result:To implement classification algorithm by using python has been executed successfully and verified output.
+EX.NO:11-IMPLEMENTING CLUSTERING USING K-MEANS CLUSTERING ALGORITHM
+AIM:
+ALGORITHM:
+1.select the number k to decide the no.of cluster.
+2.select random k points or centriods.
+3.Assign each from the data point to their cloest centroid, which will from the predefine k clusters.
+4.Calculate the varience and place a new centriod of each other.
+5.Repeat the first 3rd to redesign the datapoint.
+6.The requirements occure else go to finish
+7.Stop the program
+PROGRAM:
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
 
+df= pd.read_csv('/Mall_Customers.csv')
+df.head(3)
+
+len(df)
+
+X = df.iloc[:, [3,4]].values
+X[0:5]
+
+# KMeans class from the sklearn library.
+from sklearn.cluster import KMeans
+kmeans = KMeans(n_clusters=5, init ='kmeans++', max_iter=300, n_init=10, random_state=0 )
+kmeans.n_clusters
+
+y_kmeans = kmeans.fit_predict(X)
+df['cluster'] = y_kmeans
+print(y_kmeans.shape)
+
+# Visualising the clusters
+plt.scatter(X[y_kmeans==0, 0], X[y_kmeans==0, 1], s=100, c='red', label ='Cluster 1')
+plt.scatter(X[y_kmeans==1, 0], X[y_kmeans==1, 1], s=100, c='blue', label ='Cluster 2')
+plt.scatter(X[y_kmeans==2, 0], X[y_kmeans==2, 1], s=100, c='green', label ='Cluster 3')
+plt.scatter(X[y_kmeans==3, 0], X[y_kmeans==3, 1], s=100, c='cyan', label ='Cluster 4')
+plt.scatter(X[y_kmeans==4, 0], X[y_kmeans==4, 1], s=100, c='magenta', label ='Cluster 5')
+#Plot the centroid.
+plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1],
+s=300, c='yellow', label = 'Centroids')
+plt.title('Clusters of Customers')
+plt.xlabel('Annual Income(k$)')
+plt.ylabel('Spending Score(1-100)')
+plt.show()
+RESULT:Implementing clustering using k-means clustering algorithm has been implemented successfully.
