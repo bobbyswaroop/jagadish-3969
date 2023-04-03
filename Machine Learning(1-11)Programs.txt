@@ -419,6 +419,8 @@ Algorithm:
 8.plotting classification data in matplotlib.
 Program:
 import pandas as pd
+from warnings import filterwarnings
+filterwarnings('ignore')
 
 data=pd.read_csv("Iris.csv")
 data
@@ -463,6 +465,8 @@ PROGRAM:
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+from warnings import filterwarnings
+filterwarnings('ignore')
 
 df= pd.read_csv('Mall_Customers.csv')
 df.head(3)
