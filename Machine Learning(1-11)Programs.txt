@@ -277,7 +277,12 @@ stemmer = PorterStemmer()
 tokenized_tweet = tokenized_tweet.apply(lambda x:[stemmer.stem(i) for i in x])
 print (tokenized_tweet.head())
 Output:
- 
+0                                                   []
+1    [waltmossberg, mim, defcon, exactli, tesla, ab...
+2                                  [mim, defcon, walt]
+3                                                   []
+4                [verg, coal, die, frack, basic, dead]
+Name: new, dtype: object
 Result:The program to manipulate the twitter dataset using python is manipulated successfully and verified.
 EX.NO:08- EVALUATING THE RESULTS OF MACHINE LEARNING
 Aim:To create a program for evaluating the result of machine learning.
