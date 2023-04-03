@@ -339,82 +339,68 @@ SENSITIVITY :  0.75
 SPECIFICITY :  0.5833333333333334
 MISCLASSIFICATION ERROR :  0.35
 Result:The program to evaluating the result of machine learning is successfully evaluated and verified.
-EX.NO:09- IMPLEMENT CORRELATION AND REGRESSION TECHNIQUES
-AIM:Write a program to implement correlation and regression techniques by using python.
+EX.NO:09- IMPLEMENT Linear Regression
+AIM:Write a program to implement linear Regression by using python.
 Algorithm:
-1.Import the libraries.
-2.Read the csv file and let the variables (x,y).
-3.Find the sum of the means (x,y).
-4.Find zip-li, val, b&bo
-5.Assign the test and train dataset split.
-6.Create the machine Learning linear regression model using the train dataset.
-7.plotting classification data in matplotlib.
+1.Import required libraries: pandas, matplotlib, scikit-learn and numpy
+2.Load the dataset into a pandas dataframe
+3.Extract the independent and dependent variables
+4.Define a function to calculate regression coefficients
+5.Split the dataset into training and testing sets
+6.Fit a linear regression model on the training data
+7.Make predictions on the testing data
+8.Calculate the R-squared and RMSE values of the model
+9.Print the R-squared and RMSE values
+10.Plot the regression line and the test data.
 Program:
-import matplotlib.pyplot as plt
 import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.metrics import r2_score, mean_squared_error
+from sklearn.model_selection import train_test_split
 import numpy as np
 
-experience = np.array([3.4,4.2,5.0,1.6,5.2,2.6,7.2,8.2,6.1,7.3,3.4,8.5,7.4,6.2,6.6])
-salary = np.array([3.1,5.7,4.2,2.3,5.3,2.4,7.6,6.4,6.5,7.4,3.5,9.3,8.2,4.6,7.2])
+# Load the dataset into a pandas dataframe
+df = pd.read_csv(r"Salary_Data.csv")
+df.head()
 
-plt.scatter(experience,salary,color='red')
-plt.xlabel("Experience")
-plt.ylabel("Salary")
-plt.show  
+# Extract the independent variable (years of experience) and dependent variable (salary)
+x = list(df["YearsExperience"])
+y = list(df["Salary"])
 
-a0 = 0 #intercept
-a1 = 0 #slope
-lr = 0.0001 #learning rate
-iterations = 1000 #Number of iterations
-error = [] #Error array to calculate cost for each iterations
-for itr in range(iterations):
-    error_cost = 0
-    cost_a0 = 0
-    cost_a1 = 0
-for i in range(len(experience)):
-    y_pred = a0+a1*experience[i]  #predict value for given x
-    error_cost = error_cost + (salary[i]-y_pred)**2
-for j in range(len(experience)):
-    partial_wrt_a0 = -2*(salary[j] - (a0 + a1 * experience[j]))
-    partial_wrt_a1 = (-2*experience[j]) * (salary[j] - (a0 + a1 * experience[j])) #partial derivative with respect to a1
-    cost_a0 = cost_a0 + partial_wrt_a0
-    cost_a1 = cost_a1 + partial_wrt_a1 
-    a0 = a0 - lr * cost_a0 #update a0
-    a1 = a1 - lr * cost_a1 #update a1
-    print (itr,a0,a1)  #check iteration and updated a0 and a1
-    error.append (error_cost)
+# Define a function to calculate the regression coefficients
+def LinearRegressor(x,y):
+    sumX = sum(x)
+    sumY = sum(y)
+    xMean = sumX / len(x)
+    yMean = sumY / len(y)
+    x_minus_xmean = [val - xMean for val in x]
+    y_minus_ymean = [val - yMean for val in y]
+    zip_li = zip(x_minus_xmean,y_minus_ymean)
+    val = [x*y for x,y in zip_li]
+    b1 = sum(val) / sum([x**2 for x in x_minus_xmean])
+    b0 = yMean - b1 * xMean
+    return b0, b1
 
-print (a0)
-print (a1)
+# Split the dataset into training and testing sets
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=1/2, shuffle=True)
 
-plt.figure(figsize=(10,5))
-plt.plot (np.arange(1,len(error)+1),error,color='red',linewidth=5)
-plt.title("Iteration Vs Error")
-plt.xlabel("Iterations")
-plt.ylabel("Error")
+# Fit a linear regression model on the training data and make predictions on the testing data
+b = LinearRegressor(x_train, y_train)
+y_pred = [b[0] + b[1] * val for val in x_test]
 
-pred = a0+a1 * experience
-print (pred)
+# Calculate the R-squared and RMSE values of the model
+r2 = r2_score(y_test, y_pred)
+rmse = np.sqrt(mean_squared_error(y_test, y_pred))
 
-plt.scatter(experience,salary,color='red')
-plt.plot(experience,pred,color ='green')
-plt.xlabel('experience')
-plt.ylabel('salary')
+# Print the R-squared and RMSE values
+print("R-squared:", r2)
+print("RMSE:", rmse)
 
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error
-experience = experience.reshape (-1,1)
-model = LinearRegression()
-model.fit(experience,salary)
-salary_pred = model.predict(experience)
-Mse = mean_squared_error(salary,salary_pred)
-print ("Slope", model.coef_)
-print ("Intercept", model.intercept_)
-print ("MSE", Mse)
+# Plot the regression line and the test data
+plt.plot(x_test, y_pred)
+plt.scatter(x_test, y_test, c="k")
+plt.show()
 Output:
-Slope [0.94194449]
-Intercept 0.374186775238746
-MSE 0.7364342954183716
 Result:The program is executed and the output is verified.
 EX.NO:10-IMPLEMENTING CLASSIFICATION ALGORITHM
 AIM:Write program to implement classification Algorithm by using python.
