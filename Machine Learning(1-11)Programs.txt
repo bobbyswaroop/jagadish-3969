@@ -419,9 +419,13 @@ Algorithm:
 8.plotting classification data in matplotlib.
 Program:
 import pandas as pd
+
 data=pd.read_csv("Iris.csv")
+data
+
 X =data.iloc[:,[1,2,3,4]].values
 y =data.iloc[:,5].values
+
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
 from sklearn.naive_bayes import GaussianNB
@@ -432,6 +436,7 @@ from sklearn import metrics
 print("Classification Accuracy:", metrics.accuracy_score(y_test, y_pred)*100)
 cm=metrics.confusion_matrix(y_test,y_pred)
 print(cm)
+
 import seaborn as sn
 from matplotlib import pyplot as plt
 plt.figure(figsize=(5,4))
@@ -469,7 +474,7 @@ X[0:5]
 
 # KMeans class from the sklearn library.
 from sklearn.cluster import KMeans
-kmeans = KMeans(n_clusters=5, init ='kmeans++', max_iter=300, n_init=10, random_state=0 )
+kmeans = KMeans(n_clusters=5, init='k-means++', max_iter=300, n_init=10, random_state=0)
 kmeans.n_clusters
 
 y_kmeans = kmeans.fit_predict(X)
